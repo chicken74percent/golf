@@ -1,0 +1,13 @@
+{
+  "name": "golf-112-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end checks for the Golf 112 browser remake",
+  "scripts": {
+    "test": "node e2e.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.49.1"
+  }
+}

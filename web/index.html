@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Golf 112 — A CMU 15-112 Classic, Rebuilt for the Web</title>
+    <meta
+      name="description"
+      content="A faithful browser remake of the CMU 15-112 Python golf game. Twelve original courses, slingshot putting, wall collisions, bounce pads, timers and sound — rebuilt with HTML, CSS and Canvas."
+    />
+    <meta name="theme-color" content="#081c13" />
+    <meta property="og:title" content="Golf 112 — Browser Edition" />
+    <meta
+      property="og:description"
+      content="Twelve original courses from a CMU 15-112 Python term project, rebuilt as a zero-install Canvas game."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/Picture.jpg" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/Picture.jpg" as="image" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="site-header">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="presentation">
+              <circle cx="24" cy="24" r="21" fill="#f7f3e8" />
+              <path d="M16 35V13" stroke="#10231a" stroke-width="3" stroke-linecap="round" />
+              <path d="M17 14l14 5-14 5z" fill="#c9372c" />
+              <ellipse cx="24" cy="36" rx="10" ry="3" fill="#10231a" opacity=".12" />
+              <circle cx="29" cy="30" r="5.5" fill="#ffffff" stroke="#10231a" stroke-width="1.4" />
+              <path d="M27 28.5a2 2 0 0 1 4 0" stroke="#d7d2c4" stroke-width="1" fill="none" />
+            </svg>
+          </span>
+          <div class="brand-copy">
+            <h1 class="brand-title">GOLF <span>112</span></h1>
+            <p class="brand-sub">CMU 15-112 · Browser Edition</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="ghost-btn" id="coursesBtn" type="button">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M2 3h5v10H2zM9 3h5v10H9z" fill="none" stroke="currentColor" stroke-width="1.3" />
+            </svg>
+            Courses
+          </button>
+          <button
+            class="sound-btn"
+            id="soundBtn"
+            type="button"
+            aria-pressed="true"
+            aria-label="Turn sound off"
+            data-muted="false"
+          >
+            <span class="sound-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18">
+                <path d="M2.5 6.5h3l3.5-3v11l-3.5-3h-3z" fill="currentColor" />
+                <path class="wave" d="M11.5 5.6a4.8 4.8 0 0 1 0 6.8M13.7 3.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span data-sound-label>Sound on</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="stage" aria-labelledby="stage-title">
+          <div class="stage-bar">
+            <div>
+              <p class="eyebrow">The course</p>
+              <h2 id="stage-title">The original 12</h2>
+            </div>
+            <span class="status-pill"><span class="dot" aria-hidden="true"></span>All levels unlocked</span>
+          </div>
+
+          <div class="canvas-shell">
+            <canvas
+              id="game"
+              width="400"
+              height="400"
+              tabindex="0"
+              role="application"
+              aria-label="Golf 112. A 400 by 400 golf game. Use the Levels button or level grid to choose a course, then drag away from the ball and release to putt. Press M to mute, R to replay, Escape for level select."
+            >
+              Golf 112 requires a browser with Canvas support.
+            </canvas>
+          </div>
+
+          <div class="stage-foot">
+            <span>Faithful 400 × 400 port</span>
+            <span class="stage-foot-right">Drag <i>·</i> Release <i>·</i> Putt</span>
+          </div>
+        </section>
+
+        <aside class="sidebar" aria-label="Game information">
+          <section class="panel panel-cream">
+            <p class="eyebrow">Quick start</p>
+            <h2>How to play</h2>
+            <ol class="steps">
+              <li>
+                <span class="step-num">1</span>
+                <p><strong>Pick a course.</strong> All twelve levels are open from the start.</p>
+              </li>
+              <li>
+                <span class="step-num">2</span>
+                <p><strong>Pull back.</strong> Press on the ball and drag away from your target. The white arrow previews the shot.</p>
+              </li>
+              <li>
+                <span class="step-num">3</span>
+                <p><strong>Release to putt.</strong> The power bar fills with the length of your pull — 60 pixels is a full swing.</p>
+              </li>
+              <li>
+                <span class="step-num">4</span>
+                <p><strong>Find the hole.</strong> Sink the ball before the timer reaches zero. Fewer strokes is better.</p>
+              </li>
+            </ol>
+            <div class="tip">
+              <span class="tip-mark" aria-hidden="true">i</span>
+              <p>Click the ball, not the green. It sits still only when the last shot has fully stopped.</p>
+            </div>
+          </section>
+
+          <section class="panel panel-dark">
+            <p class="eyebrow">Field notes</p>
+            <h2>Reading the course</h2>
+            <ul class="field-list">
+              <li><span></span><p><strong>White lines</strong> are walls. Your ball rebounds off them.</p></li>
+              <li><span></span><p><strong>Khaki pads</strong> reflect the ball and add a 1.5× speed boost.</p></li>
+              <li><span></span><p><strong>Green</strong> is in play. Leave the fairway and the ball — and your stroke count — reset.</p></li>
+            </ul>
+          </section>
+
+          <section class="panel panel-cream panel-compact">
+            <div class="panel-heading-row">
+              <h2>Controls</h2>
+              <span class="progress-chip">Best scores <strong data-progress>0 / 12</strong></span>
+            </div>
+            <dl class="controls">
+              <div><dt>Mouse drag</dt><dd>Aim &amp; putt</dd></div>
+              <div><dt><kbd>M</kbd></dt><dd>Mute / unmute</dd></div>
+              <div><dt><kbd>R</kbd></dt><dd>Replay level</dd></div>
+              <div><dt><kbd>Esc</kbd></dt><dd>Level select</dd></div>
+            </dl>
+          </section>
+
+        </aside>
+      </main>
+
+      <footer class="site-footer">
+        <span>HTML · CSS · Canvas · Web Audio — no frameworks</span>
+        <span>Original Python by Collins · CMU 15-112</span>
+      </footer>
+    </div>
+
+    <noscript>
+      <p class="noscript">Golf 112 needs JavaScript enabled. The game runs entirely in your browser — no install required.</p>
+    </noscript>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <p class="sr-only" id="sr-status" aria-live="polite"></p>
+
+    <script type="module" src="js/game.js"></script>
+  </body>
+</html>

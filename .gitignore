@@ -1,0 +1,13 @@
+# This file tells git to ignore certain files and directories
+# No need to modify this file 
+__pycache__/
+*.py[cod]
+.DS_Store
+# Browser build / tooling
+node_modules/
+tests/node_modules/
+tests/artifacts/
+.analysis/
+.test-tools/
+.venv/
+*.log
